@@ -13,40 +13,25 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Form submission logic
-const contactForm = document.getElementById('contactForm');
-if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
+// WhatsApp Widget Toggle Logic
+const waWidget = document.getElementById('waWidget');
+const waChatWindow = document.getElementById('waChatWindow');
+const waToggle = document.getElementById('waToggle');
+const waIconWhatsApp = waToggle.querySelector('.wa-icon-whatsapp');
+const waIconClose = waToggle.querySelector('.wa-icon-close');
+
+if (waToggle && waChatWindow) {
+    waToggle.addEventListener('click', () => {
+        const isActive = waChatWindow.classList.toggle('active');
+        waToggle.classList.toggle('active');
         
-        const nameInput = document.getElementById('name');
-        const messageInput = document.getElementById('message');
-        const submitBtn = contactForm.querySelector('.submit-btn');
-        
-        const name = nameInput.value.trim();
-        const message = messageInput.value.trim();
-        
-        if (!name || !message) {
-            alert("Por favor, introduzca su nombre y su requerimiento.");
-            return;
+        if (isActive) {
+            waIconWhatsApp.style.display = 'none';
+            waIconClose.style.display = 'block';
+        } else {
+            waIconWhatsApp.style.display = 'block';
+            waIconClose.style.display = 'none';
         }
-
-        const originalText = submitBtn.innerText;
-        submitBtn.innerText = "Conectando...";
-        submitBtn.disabled = true;
-
-        const whatsappNumber = "584242143713";
-        const text = encodeURIComponent(`Hola Fredis, mi nombre es ${name}. He visto su web y necesito: ${message}`);
-        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${text}`;
-
-        // Small delay for better UX
-        setTimeout(() => {
-            window.open(whatsappUrl, '_blank');
-            
-            submitBtn.innerText = originalText;
-            submitBtn.disabled = false;
-            contactForm.reset();
-        }, 800);
     });
 }
 
